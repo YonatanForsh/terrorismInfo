@@ -1,11 +1,9 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
+import Main from './Main';
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -23,19 +21,9 @@ const demoTheme = createTheme({
   },
 });
 
-function DemoPageContent({ pathname }: { pathname: string }) {
+function DemoPageContent() {
   return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Typography>Dashboard content for {pathname}</Typography>
-    </Box>
+    <Main/>
   );
 }
 
@@ -79,13 +67,18 @@ export default function DashboardLayoutNavigationLinks(props: DemoProps) {
             title: 'סוגי תקיפות',
             icon: <DescriptionIcon />,
         },
+        {
+            segment: 'about',
+            title: 'שנים',
+            icon: <DescriptionIcon />,
+        },
       ]}
       router={router}
       theme={demoTheme}
       window={demoWindow}
     >
       <DashboardLayout>
-        <DemoPageContent pathname={router.pathname} />
+        <DemoPageContent />
       </DashboardLayout>
     </AppProvider>
     // preview-end
