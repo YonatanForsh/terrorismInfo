@@ -5,17 +5,33 @@ const getAverageCasualtiesByCountry = async () => {
     try {
         return await countryModel.aggregate([
             {
-                $project: { name: 1, average: { $divide: ["$casualties", { $size: "$events" }]  } }
+                $lookup: {
+                    from: "events",
+                    localField: "events",
+                    foreignField: "_id",
+                    as: "eventDetails"
+                }
+            },
+            {
+                $project: {
+                    name: 1,
+                    eventsCount: { $size: "$events" },
+                    average: { $divide: ["$casualties", { $size: "$events" }] },
+                    lat: { $arrayElemAt: ["$eventDetails.lat", 0] },
+                    long: { $arrayElemAt: ["$eventDetails.long", 0] }
+                }
             },
             {
                 $sort: { average: -1 }
             }
-        ])
+        ]);
     } catch (error) {
         console.error("Error fetching average of countries: ", error);
         throw error;
     }
 };
+
+
 
 const getAverageCasualtiesByCountryId = async (countryId: string) => {
     try {console.log(countryId, ); 

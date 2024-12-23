@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { platforms } from '../graphs';
 
-const palette = ['lightcoral', 'slateblue'];
+const palette = ['green', 'red'];
 
 const colorPerItem = [
   { ...platforms[0], color: 'orange' },
@@ -15,7 +15,7 @@ export default function PieColor() {
   return (
     <Stack direction="row" width="100%" textAlign="center" spacing={2}>
       <Box flexGrow={1}>
-        <Typography>Default</Typography>
+        <Typography>אירועי טרור לפי ארגון</Typography>
         <PieChart
           series={[
             {
@@ -26,7 +26,7 @@ export default function PieColor() {
         />
       </Box>
       <Box flexGrow={1}>
-        <Typography>Palette</Typography>
+        <Typography>אירועי טרור לפי סוג תקיפה</Typography>
         <PieChart
           colors={palette}
           series={[
@@ -38,7 +38,7 @@ export default function PieColor() {
         />
       </Box>
       <Box flexGrow={1}>
-        <Typography>Item</Typography>
+        <Typography>ארועי טרור לפי מדינות</Typography>
         <PieChart
           series={[
             {
