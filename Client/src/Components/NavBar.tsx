@@ -2,7 +2,6 @@ import { createTheme } from '@mui/material/styles';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { useDemoRouter } from '@toolpad/core/internal';
 import Main from './Main';
 
 const demoTheme = createTheme({
@@ -33,7 +32,6 @@ interface DemoProps {
 
 export default function DashboardLayoutNavigationLinks(props: DemoProps) {
   const { window } = props;
-  const router = useDemoRouter('/home');
   const demoWindow = window !== undefined ? window() : undefined;
 
   return (

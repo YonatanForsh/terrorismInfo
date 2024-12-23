@@ -75,7 +75,28 @@ const getYearEventsByOrganization = async (year: number) => {
     }
 };
 
+const getAverageOfCasualtiesByRangesYears = async (from: number, to: number) => {
+    try {
+        const matchStage = { name: { $gte: from, $lte: to } };
+        return await yearModel.aggregate([
+            {
+                $match: matchStage
+            },
+            {
+                $project: {
+                    name: 1,
+                    average: { $divide: [{ $size: "$events" }, 12] }
+                }
+            },
+        ]);
+    } catch (error) {
+        console.error("Error fetching average by year: ", error);
+        throw error;
+    }
+};
+
 export default {
     getAverageOfCasualtiesByYear,
-    getYearEventsByOrganization
+    getYearEventsByOrganization,
+    getAverageOfCasualtiesByRangesYears
 };

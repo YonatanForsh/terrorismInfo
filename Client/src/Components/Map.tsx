@@ -6,6 +6,7 @@ import MarkerIcon from '../../node_modules/leaflet/dist/images/marker-icon.png';
 import MarkerShadow from '../../node_modules/leaflet/dist/images/marker-shadow.png';
 import { useAppDispatch } from '../Redux/store';
 import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 
 interface Country {
     _id: string;
@@ -30,6 +31,14 @@ export default function Map() {
 
     return (
         <div>
+            <Box sx={{
+                 py: 4,
+                 display: 'flex',
+                 flexDirection: 'column',
+                 alignItems: 'center',
+                 textAlign: 'center',
+                 gap: 4,
+           }}>
             <MapContainer style={{ height: '50vh', width: '75vw' }} center={[51.505, -0.09]} zoom={5} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -55,6 +64,7 @@ export default function Map() {
                     )
                 ))}
             </MapContainer>
+            </Box>
         </div>
     );
 };

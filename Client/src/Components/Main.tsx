@@ -9,16 +9,7 @@ import Years from './Years';
 export default function Main() {
   
   return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-        gap: 4,
-      }}
-    >
+    <Box>
       <Routes>
         <Route path="/home" element={
           <>

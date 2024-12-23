@@ -23,3 +23,21 @@ export const getYearEventsByOrganization = async (req:Request ,res:Response) => 
         res.status(400).json((err as Error).message)
     }
 };
+
+export const getAverageOfCasualtiesByRangesYears = async (req:Request ,res:Response) => {
+    try {
+        const { from, to } = req.params;
+        const selectedFrom = parseInt(from)
+        const selectedTo = parseInt(to)
+        if (selectedFrom < 1970 || selectedFrom > 2017 || selectedFrom > selectedTo
+            || selectedTo >2017 || selectedTo < 1970
+        ){
+            res.status(401).json("unvalid range")
+            return
+        }
+        const averageOfCasualtiesByRangesYears = await yearService.getAverageOfCasualtiesByRangesYears(selectedFrom,selectedTo)
+        res.status(200).json(averageOfCasualtiesByRangesYears)
+    } catch (err) {
+        res.status(400).json((err as Error).message)
+    }
+};
