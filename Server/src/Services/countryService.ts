@@ -127,9 +127,9 @@ const getCountriesWhereOrganizationIsTop = async (organizationName: string) => {
             },
             {
                 $lookup: {
-                    from: "events", // assuming "events" is the collection storing lat/long data
-                    localField: "_id", // match with the country ID
-                    foreignField: "_id", // assuming "countryId" links events to countries
+                    from: "events",
+                    localField: "_id",
+                    foreignField: "_id",
                     as: "eventDetails"
                 }
             },

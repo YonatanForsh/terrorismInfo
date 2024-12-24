@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { BarChart } from "@mui/x-charts/BarChart";
-import MapForOrganization from "./MapForOrganization";
 import { TextField } from "@mui/material";
 import Map from "./Map";
 
@@ -26,7 +25,7 @@ function Organization() {
   const [orgName, setOrgName] = useState<string | null>(null);
   const [names, setNames] = useState<string[]>([]);
   const [value, setValue] = useState<number[]>([]);
-  const [initialYear, setInitialYear] = React.useState("");
+  const [initialYear] = React.useState("");
 
   const fetchData = async (year: number) => {
     try {
