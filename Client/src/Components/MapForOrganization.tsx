@@ -1,12 +1,14 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { fetchCountries } from "../Redux/Fetchs/fetchCountries";
 import MarkerIcon from "../../node_modules/leaflet/dist/images/marker-icon.png";
 import MarkerShadow from "../../node_modules/leaflet/dist/images/marker-shadow.png";
-import { useAppDispatch } from "../Redux/store";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+
+interface Props {
+  organization: string;
+}
 
 interface Country {
   _id: string;
@@ -17,17 +19,30 @@ interface Country {
   average: number;
 }
 
-export default function Map() {
-  const appDispatch = useAppDispatch();
+export default function MapForOrganization(Props: Props) {
   const [countries, setCountries] = useState<Country[]>([]);
+
+  const fetchOrgData = async (organizationName: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/countries/country/organization/${organizationName}`
+      );
+      const res = await response.json();
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const actionResult = await appDispatch(fetchCountries());
-      setCountries(actionResult.payload);
+      const data = await fetchOrgData(Props.organization);
+      setCountries(data);
     };
     fetchData();
-  }, [appDispatch]);
+  }, [Props.organization]);
 
   return (
     <div>
@@ -46,6 +61,7 @@ export default function Map() {
           center={[51.505, -0.09]}
           zoom={5}
           scrollWheelZoom={true}
+          zoomControl={true}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

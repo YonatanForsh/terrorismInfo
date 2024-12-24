@@ -126,10 +126,20 @@ const getCountriesWhereOrganizationIsTop = async (organizationName: string) => {
                 $match: { topOrganization: organizationName }
             },
             {
+                $lookup: {
+                    from: "events", // assuming "events" is the collection storing lat/long data
+                    localField: "_id", // match with the country ID
+                    foreignField: "_id", // assuming "countryId" links events to countries
+                    as: "eventDetails"
+                }
+            },
+            {
                 $project: {
                     _id: 0,
                     country: "$countryName",
-                    casualties: "$topCasualties"
+                    casualties: "$topCasualties",
+                    lat: { $arrayElemAt: ["$eventDetails.lat", 0] },
+                    long: { $arrayElemAt: ["$eventDetails.long", 0] }
                 }
             }
         ]);

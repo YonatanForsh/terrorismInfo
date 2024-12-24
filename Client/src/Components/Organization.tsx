@@ -5,11 +5,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { BarChart } from "@mui/x-charts/BarChart";
+import MapForOrganization from "./MapForOrganization";
+import { TextField } from "@mui/material";
 import Map from "./Map";
+
 interface types {
   organization: string;
   eventCount: number;
 }
+
 const years = [
   1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982,
   1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
@@ -19,14 +23,15 @@ const years = [
 
 function Organization() {
   const [org, setOrg] = useState<types[]>([]);
+  const [orgName, setOrgName] = useState<string | null>(null);
   const [names, setNames] = useState<string[]>([]);
   const [value, setValue] = useState<number[]>([]);
   const [initialYear, setInitialYear] = React.useState("");
-  
+
   const fetchData = async (year: number) => {
-    try {        
+    try {
       const response = await fetch(
-        `http://localhost:3000/api/years/year/${year}}`
+        `http://localhost:3000/api/years/year/${year}`
       );
       const data = await response.json();
       setOrg(data);
@@ -47,23 +52,17 @@ function Organization() {
   return (
     <div>
       <Box sx={{ minWidth: 120, margin: 2, width: "60vw" }}>
-      <h1>ארגוני טרור מובילים לפי מדינות</h1>
-        <Map />
+        <h1>ארגוני טרור מובילים לפי מדינות</h1>
+        {orgName && <Map />}
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">בחר ארגון</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={initialYear}
-            label="select organization"
-            onChange={(e) => {
-              fetchData(parseInt(e.target.value));
-            }}
-          >
-            {years.map((y) => (
-              <MenuItem value={y}>{y}</MenuItem>
-            ))}
-          </Select>
+          <InputLabel htmlFor="organization-input">בחר ארגון</InputLabel>
+          <TextField
+            id="organization-input"
+            label="ארגון"
+            variant="outlined"
+            value={orgName || ""}
+            onChange={(e) => setOrgName(e.target.value)}
+          />
         </FormControl>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">בחר שנה</InputLabel>
