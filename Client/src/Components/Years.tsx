@@ -27,18 +27,25 @@ function Years() {
   const [year, setYear] = React.useState("");
   const [range, setRange] = React.useState<number[]>([1970, 2017]);
   const BASE_URL = "http://localhost:3000/api/years/";
+
+  useEffect(() => {
+    setYear(year);
+  }, [year]);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}get/0/5`);
+        const response = await fetch(`${BASE_URL}/0/5`);
         const data = await response.json();
         setInfo(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, []);
+  
   useEffect(() => {
     if (info.length > 0) {
       const extractedNames = info.map((e) => e.name);
@@ -50,6 +57,7 @@ function Years() {
   useEffect(() => {
     handleRange();
   }, [range]);
+
   const handleRange = () => {
     const fetchData = async () => {
       try {
@@ -64,10 +72,12 @@ function Years() {
     };
     fetchData();
   };
+
   const handle5Years = (n: number) => {
+    console.log(n);
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}get/0/${n}`);
+        const response = await fetch(`${BASE_URL}/0/${n}`);
         const data = await response.json();
         setInfo(data);
       } catch (error) {
@@ -76,10 +86,11 @@ function Years() {
     };
     fetchData();
   };
+
   const handleYears = (n: number) => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}get/${n}/0`);
+        const response = await fetch(`${BASE_URL}/${n}/0`);
         const data = await response.json();
         setInfo(data);
       } catch (error) {
@@ -88,8 +99,9 @@ function Years() {
     };
     fetchData();
   };
+  
   const handleChange2 = (
-    event: Event,
+    _: Event,
     newValue: number | number[],
     activeThumb: number
   ) => {

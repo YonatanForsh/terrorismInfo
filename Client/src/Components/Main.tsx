@@ -19,7 +19,7 @@ export default function Main() {
           />
         <Route path="/" element={<Navigate to={"/home"} />} />
         <Route path="/organization" element={<Organization />} />
-        <Route path="/countries" element={<PieColor />} />
+        <Route path="/countries" element={<Map />} />
         <Route path="/types" element={<Types />} />
         <Route path="/years" element={<Years />} />
         <Route path="*" element={<div>הדף לא נמצא.</div>} />

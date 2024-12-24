@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { BarChart } from "@mui/x-charts/BarChart";
+import Map from "./Map";
 interface types {
   organization: string;
   eventCount: number;
@@ -20,10 +21,12 @@ function Organization() {
   const [org, setOrg] = useState<types[]>([]);
   const [names, setNames] = useState<string[]>([]);
   const [value, setValue] = useState<number[]>([]);
-  const fetchData = async (years: number) => {
-    try {
+  const [initialYear, setInitialYear] = React.useState("");
+  
+  const fetchData = async (year: number) => {
+    try {        
       const response = await fetch(
-        `http://localhost:3000/api/years/allorg/${years}}`
+        `http://localhost:3000/api/years/year/${year}}`
       );
       const data = await response.json();
       setOrg(data);
@@ -43,13 +46,31 @@ function Organization() {
 
   return (
     <div>
-      <Box sx={{ minWidth: 120, margin: 2, width: 100 }}>
+      <Box sx={{ minWidth: 120, margin: 2, width: "60vw" }}>
+      <h1>ארגוני טרור מובילים לפי מדינות</h1>
+        <Map />
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">select year</InputLabel>
+          <InputLabel id="demo-simple-select-label">בחר ארגון</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={""}
+            value={initialYear}
+            label="select organization"
+            onChange={(e) => {
+              fetchData(parseInt(e.target.value));
+            }}
+          >
+            {years.map((y) => (
+              <MenuItem value={y}>{y}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">בחר שנה</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={initialYear}
             label="select year"
             onChange={(e) => {
               fetchData(parseInt(e.target.value));

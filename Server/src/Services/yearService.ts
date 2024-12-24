@@ -1,7 +1,8 @@
+import { log } from "console";
 import yearModel from "../Models/yearModel"
 
 const getAverageOfCasualtiesByYear = async (year: number, number: number) => {
-    try {
+    try { 
         let matchStage: any = {}; 
         if (year) {
             matchStage = { name: year };
@@ -9,7 +10,7 @@ const getAverageOfCasualtiesByYear = async (year: number, number: number) => {
             const startYear = 2017 - number;
             matchStage = { name: { $gte: startYear, $lte: 2017 } };
         }
-        return await yearModel.aggregate([
+        const res = await yearModel.aggregate([
             { 
                 $match: matchStage
             },
@@ -23,6 +24,8 @@ const getAverageOfCasualtiesByYear = async (year: number, number: number) => {
                 $limit: number || 1
             }
         ]);
+        console.log("res: ", res);
+        return res;
     } catch (error) {
         console.error("Error fetching average by year: ", error);
         throw error;
